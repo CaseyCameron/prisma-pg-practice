@@ -1,13 +1,15 @@
-import mongoose from 'mongoose'
+import { PrismaClient } from '@prisma/client'
 
-export default async (dbUrl = process.env.MONGODB_URL) => {
+export const prisma = new PrismaClient()
+
+export default async (dbUrl = process.env.DATABASE_URL) => {
   if(!dbUrl) {
     console.error('No db connection string provided')
     return
   }
   try {
-    const db = await mongoose.connect(dbUrl)
-    console.log(`Connected to db at ${dbUrl}`)
+    const db = await prisma.$connect()
+    console.log(`Connected to postgres db`)
     return db
   } catch(err) {
     console.error('Error connecting to db')
