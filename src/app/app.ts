@@ -3,6 +3,8 @@ import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import heartbeat from './heartbeat'
+import { modesRouter } from './routes/'
+
 
 const routePrefix = '/api/v1'
 
@@ -13,5 +15,5 @@ app.use(morgan('dev'))
 app.use(express.json())
 
 app.get(routePrefix, heartbeat)
-
+app.use(routePrefix + '/modes', modesRouter)
 export default app

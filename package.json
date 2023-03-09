@@ -7,7 +7,7 @@
     "dev": "nodemon ./src/server.ts",
     "build": "babel src --out-dir build --extensions .ts --source-maps inline",
     "start": "node ./build/server.js",
-    "test": "jest --verbose",
+    "test": "jest --verbose --watch",
     "lint": "eslint ./src",
     "format:check": "npx prettier --check .",
     "format:write": "npx prettier --write ."
@@ -38,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "eslint": "^8.28.0",
+    "express-validator": "^6.15.0",
     "jest": "^29.3.1",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.0",
