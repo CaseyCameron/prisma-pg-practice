@@ -5,8 +5,8 @@ beforeAll(async () => {
 
 afterEach(async () => {
   await prisma.genre.deleteMany({})
-  await prisma.mode.deleteMany({})
   await prisma.scale.deleteMany({})
+  await prisma.mode.deleteMany({})
   await prisma.composer.deleteMany({})
   await prisma.composition.deleteMany({})
 })

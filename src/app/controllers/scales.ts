@@ -5,17 +5,24 @@ import { handleRowResponse } from '../../utils/helpers/generics';
 const Prisma = prisma.scale
 
 export const scalesController = {
-  addScale: async(req: Request, res: Response, next: NextFunction) => {
-    const { name: scaleName, modes: modesArray } = req.body
-
+  addScale: async (req: Request, res: Response, next: NextFunction) => {
+    const { name, modes, composers } = req.body;
+    console.log('controller modes', modes);
     const scale = await Prisma.create({
       data: {
-        name: scaleName,
-        modes: modesArray
-      }
-    })
-
-    res.status(201).json({ message: 'Success', scale})
+        name,
+        modes: {
+          connect: {
+            id: modes.id,
+          },
+        },
+      },
+      include: {
+        modes: true,
+      },
+    });
+    
+    res.status(201).json({ message: 'Success', scale });
   },
   getScaleById: async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
@@ -27,4 +34,4 @@ export const scalesController = {
 
     await handleRowResponse(scale, 'scale', res, next);
   },
-}
+};

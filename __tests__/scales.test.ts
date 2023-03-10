@@ -1,19 +1,35 @@
 import request from 'supertest'
 import app from '../src/app/app'
+import { prisma } from '../src/db/connect-to-db';
 import { SCALE_ROUTE, MODE_ROUTE } from '../src/utils/helpers'
 
-describe.skip('Scale tests', () => {
+describe('Scale tests', () => {
+  afterEach(async () => {
+    await prisma.genre.deleteMany({})
+    await prisma.scale.deleteMany({})
+    await prisma.mode.deleteMany({})
+    await prisma.composer.deleteMany({})
+    await prisma.composition.deleteMany({})
+  })
   it('should post a scale', async () => {
-    const res = await request(app).post(SCALE_ROUTE).send({
-      name: 'Ionian',
-      modes: [
-        {
-          name: 'Dorian',
-        },
-      ],
-    });
+    const mode = await request(app).post(MODE_ROUTE).send({ name: 'Lydian' });
+
+    const res = await request(app)
+      .post(SCALE_ROUTE)
+      .send({
+        name: 'Ionian',
+        modes: mode.body.mode
+      });
 
     expect(res.status).toBe(201);
-    expect(res.body).toMatchObject({});
+    expect(res.body).toEqual({ message: 'Success', scale: {
+      id: expect.any(Number),
+      name: 'Ionian',
+      modeId: expect.any(Number),
+      modes: {
+        id: expect.any(Number),
+        name: 'Lydian'
+      }
+    }});
   });
-})
+});

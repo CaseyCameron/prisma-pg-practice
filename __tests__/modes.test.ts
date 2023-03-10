@@ -4,10 +4,15 @@ import { prisma } from '../src/db/connect-to-db';
 import { MODE_ROUTE } from '../src/utils/helpers';
 
 describe('Mode tests', () => {
-  
+  afterEach(async () => {
+    await prisma.genre.deleteMany({})
+    await prisma.scale.deleteMany({})
+    await prisma.mode.deleteMany({})
+    await prisma.composer.deleteMany({})
+    await prisma.composition.deleteMany({})
+  })
   it('should post a mode', async () => {
     const res = await request(app).post(MODE_ROUTE).send({ name: 'Dorian' });
-
     expect(res.status).toBe(201);
     expect(res.body).toMatchObject({
       message: 'Success',

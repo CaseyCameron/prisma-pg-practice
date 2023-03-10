@@ -8,12 +8,10 @@ datasource db {
 }
 
 model Scale {
-  id         Int       @id @default(autoincrement())
-  name       String    @unique
-  modes      Mode?     @relation(fields: [modeId], references: [id])
-  modeId     Int?
-  composer   Composer? @relation(fields: [composerId], references: [id])
-  composerId Int?
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  modes  Mode?  @relation(fields: [modeId], references: [id])
+  modeId Int?
 }
 
 model Mode {
@@ -31,12 +29,11 @@ model Genre {
 model Composer {
   id          Int           @id @default(autoincrement())
   dob         DateTime
-  scalesUsed  Scale[]
   Composition Composition[]
 }
 
 model Composition {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   name       String
   composer   Composer? @relation(fields: [composerId], references: [id])
   composerId Int?
