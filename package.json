@@ -10,7 +10,8 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "migrate:postgres": "dotenv -e .env.test -- npx prisma migrate deploy",
-    "test": "npm run docker:up && npm run migrate:postgres && dotenv -e .env.test jest -i --verbose --watch",
+    "prisma:reset": "npx prisma migrate reset -f",
+    "test": "npm run docker:up && npm run prisma:reset && npm run migrate:postgres && jest -i --verbose --watch",
     "lint": "eslint ./src",
     "format:check": "npx prettier --check .",
     "format:write": "npx prettier --write ."

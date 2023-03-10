@@ -10,8 +10,8 @@ datasource db {
 model Scale {
   id         Int       @id @default(autoincrement())
   name       String    @unique
-  modes      Mode      @relation(fields: [modeId], references: [id])
-  modeId     Int
+  modes      Mode?     @relation(fields: [modeId], references: [id])
+  modeId     Int?
   composer   Composer? @relation(fields: [composerId], references: [id])
   composerId Int?
 }
@@ -38,6 +38,6 @@ model Composer {
 model Composition {
   id         Int      @id @default(autoincrement())
   name       String
-  composer   Composer @relation(fields: [composerId], references: [id])
-  composerId Int
+  composer   Composer? @relation(fields: [composerId], references: [id])
+  composerId Int?
 }

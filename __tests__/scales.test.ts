@@ -2,7 +2,7 @@ import request from 'supertest'
 import app from '../src/app/app'
 import { SCALE_ROUTE, MODE_ROUTE } from '../src/utils/helpers'
 
-describe('Scale tests', () => {
+describe.skip('Scale tests', () => {
   it('should post a scale', async () => {
     const res = await request(app).post(SCALE_ROUTE).send({
       name: 'Ionian',

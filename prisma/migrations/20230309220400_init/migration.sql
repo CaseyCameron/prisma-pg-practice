@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS scale, mode, genre, composer, composition CASCADE;
+
 -- CreateTable
 CREATE TABLE "Scale" (
     "id" SERIAL NOT NULL,
