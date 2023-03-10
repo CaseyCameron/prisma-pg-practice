@@ -9,6 +9,7 @@ const validationCriteria = [body('name').notEmpty()]
 router.post('/', validationCriteria, catchErrors(modesController.addMode))
 router.get('/:id', catchErrors(modesController.getModeById))
 router.get('/', catchErrors(modesController.getModes))
+router.put('/:id', catchErrors(modesController.editMode))
 router.delete('/', catchErrors(modesController.deleteAllModes))
 
 export const modesRouter = router

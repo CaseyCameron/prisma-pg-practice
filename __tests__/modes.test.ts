@@ -44,6 +44,24 @@ describe('Mode tests', () => {
       ],
     });
   });
+  it('should update a mode', async () => {
+    const { body } = await request(app)
+      .post(MODE_ROUTE)
+      .send({ name: 'Dorian' });
+    const mode = body.mode;
+    const res = await request(app)
+      .put(MODE_ROUTE + `/${mode.id}`)
+      .send({
+        ...mode,
+        name: 'Lydian',
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      message: 'Success',
+      mode: { ...mode, name: 'Lydian' },
+    });
+  });
   it('should delete all modes', async () => {
     await request(app).post(MODE_ROUTE).send({ name: 'Dorian' });
     const res = await request(app).delete(MODE_ROUTE)

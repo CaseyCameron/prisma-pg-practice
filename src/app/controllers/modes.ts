@@ -20,23 +20,38 @@ export const modesController = {
     });
 
     res.status(201).json({
-        message: 'Success',
-        mode,
+      message: 'Success',
+      mode,
+    });
+  },
+  getModeById: async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const mode = await Prisma.findUnique({
+      where: {
+        id: +id,
       },
-    );
+    });
+
+    await handleRowResponse(mode, 'mode', res, next);
   },
-  getModeById:async (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id
-    const mode = await Prisma.findUnique({ where: {
-      id: +id
-    }})
-    
-    await handleRowResponse(mode, 'mode', res, next)
+  getModes: async (req: Request, res: Response, next: NextFunction) => {
+    const modes = await Prisma.findMany();
+
+    await handleTableResponse(modes, 'modes', res);
   },
-  getModes:async (req: Request, res: Response, next: NextFunction) => {
-    const modes = await Prisma.findMany()
-    
-    await handleTableResponse(modes, 'modes', res)
+  editMode: async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const { name } = req.body;
+    const mode = await Prisma.update({
+      where: {
+        id: +id,
+      },
+      data: {
+        name,
+      },
+    });
+
+    await handleRowResponse(mode, 'mode', res, next);
   },
   deleteAllModes: async (req: Request, res: Response, next: NextFunction) => {
     const modes = await Prisma.findMany();
