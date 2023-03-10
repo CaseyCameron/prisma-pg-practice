@@ -13,7 +13,20 @@ describe('Mode tests', () => {
       mode: { id: expect.any(Number), name: 'Dorian' },
     });
   });
-  it.only('should get all modes', async () => {
+  it('should get a mode by id', async () => {
+    const modeOne = await request(app)
+      .post(MODE_ROUTE)
+      .send({ name: 'Lydian' });
+    const id = modeOne.body.mode.id;
+    const res = await request(app).get(MODE_ROUTE + `/${id}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      message: 'Success',
+      mode: { ...modeOne.body.mode, id: expect.any(Number) },
+    });
+  });
+  it('should get all modes', async () => {
     const modeOne = await request(app)
       .post(MODE_ROUTE)
       .send({ name: 'Dorian' });

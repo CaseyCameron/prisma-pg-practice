@@ -1,6 +1,6 @@
 import { prisma } from '../../db/connect-to-db';
 import { Request, Response, NextFunction } from 'express';
-import { deleteCollectionResponse, handleCollectionResponse } from '../../utils/helpers/generics';
+import { deleteTableResponse, handleRowResponse, handleTableResponse } from '../../utils/helpers/generics';
 
 type Mode = {
   id: string;
@@ -25,14 +25,22 @@ export const modesController = {
       },
     );
   },
+  getModeById:async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id
+    const mode = await Prisma.findUnique({ where: {
+      id: +id
+    }})
+    
+    await handleRowResponse(mode, 'mode', res, next)
+  },
   getModes:async (req: Request, res: Response, next: NextFunction) => {
     const modes = await Prisma.findMany()
     
-    await handleCollectionResponse(modes, 'modes', res)
+    await handleTableResponse(modes, 'modes', res)
   },
   deleteAllModes: async (req: Request, res: Response, next: NextFunction) => {
     const modes = await Prisma.findMany();
     const { count } = await Prisma.deleteMany();
-    await deleteCollectionResponse(modes, count, res, next);
+    await deleteTableResponse(modes, count, res, next);
   },
 };
