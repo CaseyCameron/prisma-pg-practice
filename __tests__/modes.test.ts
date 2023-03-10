@@ -1,9 +1,13 @@
 import request from 'supertest';
 import app from '../src/app/app';
+import { prisma } from '../src/db/connect-to-db';
 import { MODE_ROUTE } from '../src/utils/helpers';
 
 describe('Mode tests', () => {
   afterEach(async () => await request(app).delete(MODE_ROUTE));
+  afterAll(async() => {
+    await prisma.$disconnect()
+  })
   it('should post a mode', async () => {
     const res = await request(app).post(MODE_ROUTE).send({ name: 'Dorian' });
 
