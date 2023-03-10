@@ -1,5 +1,18 @@
 import { Response, NextFunction } from 'express';
 
+export const deleteRowResponse = async (
+  modeId: number | null,
+  rowId: number | null,
+  res: Response,
+  next: NextFunction
+) => {
+  if (modeId === rowId) {
+    res.status(200).json({ message: 'Success' })
+  } else {
+    next(new Error('Could not delete all items'))
+  }
+}
+
 export const deleteTableResponse = async <T>(
   rows: T[],
   count: number,

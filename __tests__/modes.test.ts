@@ -62,6 +62,16 @@ describe('Mode tests', () => {
       mode: { ...mode, name: 'Lydian' },
     });
   });
+  it('should delete a mode', async () => {
+    const { body } = await request(app)
+      .post(MODE_ROUTE)
+      .send({ name: 'Dorian' });
+    const mode = body.mode;
+    const res = await request(app).delete(MODE_ROUTE + `/${mode.id}`)
+
+    expect(res.status).toEqual(200)
+    expect(res.body).toEqual({ message: 'Success' })
+  })
   it('should delete all modes', async () => {
     await request(app).post(MODE_ROUTE).send({ name: 'Dorian' });
     const res = await request(app).delete(MODE_ROUTE)
