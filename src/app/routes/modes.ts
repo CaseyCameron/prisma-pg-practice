@@ -7,6 +7,7 @@ const router = Router()
 const validationCriteria = [body('name').notEmpty()]
 
 router.post('/', validationCriteria, catchErrors(modesController.addMode))
+router.get('/', catchErrors(modesController.getModes))
 router.delete('/', catchErrors(modesController.deleteAllModes))
 
 export const modesRouter = router

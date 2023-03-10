@@ -7,5 +7,6 @@ afterEach(() => {
 })
 
 afterAll(async () => {
+  prisma.mode.deleteMany()
   await prisma.$disconnect()
 })

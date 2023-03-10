@@ -12,3 +12,21 @@ export const deleteCollectionResponse = async <T>(
     next(new Error('Could not delete all items'))
   }
 }
+
+export const handleCollectionResponse = async <T>(
+  documents: T[],
+  model: string,
+  res: Response,
+) => {
+  const name = `${model}`
+  if (documents.length) {
+    res.status(200).json({
+      message: 'Success',
+      [name]: documents,
+    })
+  } else {
+    res.status(200).json({
+      message: `There are no ${name} yet`,
+    })
+  }
+}
