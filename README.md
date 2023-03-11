@@ -13,3 +13,12 @@ To run the application in production, first run:
 `npm run build`
 Then:
 `npm start`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}

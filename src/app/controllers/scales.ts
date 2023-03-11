@@ -1,28 +1,40 @@
 import { prisma } from '../../db/connect-to-db'
 import { Request, Response, NextFunction } from 'express'
-import { handleRowResponse } from '../../utils/helpers/generics';
+import {
+  handleRowResponse,
+  handleTableResponse,
+} from '../../utils/helpers/generics';
 
 const Prisma = prisma.scale
 
 export const scalesController = {
   addScale: async (req: Request, res: Response, next: NextFunction) => {
-    const { name, modes, composers } = req.body;
-    console.log('controller modes', modes);
-    const scale = await Prisma.create({
-      data: {
-        name,
-        modes: {
-          connect: {
-            id: modes.id,
+    const { name, modes } = req.body;
+
+    if (modes) {
+      const scale = await Prisma.create({
+        data: {
+          name,
+          mode: {
+            connect: {
+              id: modes.id,
+            },
           },
         },
-      },
-      include: {
-        modes: true,
-      },
-    });
-    
-    res.status(201).json({ message: 'Success', scale });
+        include: {
+          mode: true,
+        },
+      });
+      res.status(201).json({ message: 'Success', scale });
+    } else {
+      const scale = await Prisma.create({
+        data: {
+          name,
+        },
+      });
+      console.log('scale', scale)
+      res.status(201).json({ message: 'Success', scale });
+    }
   },
   getScaleById: async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
@@ -33,5 +45,10 @@ export const scalesController = {
     });
 
     await handleRowResponse(scale, 'scale', res, next);
+  },
+  getScales: async (req: Request, res: Response) => {
+    const scales = await Prisma.findMany();
+    
+    await handleTableResponse(scales, 'scales', res);
   },
 };

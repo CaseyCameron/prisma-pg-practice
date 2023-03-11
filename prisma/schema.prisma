@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,16 +10,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model Scale {
-  id     Int    @id @default(autoincrement())
-  name   String @unique
-  modes  Mode?  @relation(fields: [modeId], references: [id])
+  id      Int    @id @default(autoincrement())
+  name    String 
+  mode   Mode?  @relation(fields: [modeId], references: [id])
   modeId Int?
 }
 
 model Mode {
   id     Int     @id @default(autoincrement())
-  name   String  @unique
+  name   String  
   scales Scale[]
 }
 
@@ -29,7 +33,7 @@ model Genre {
 model Composer {
   id          Int           @id @default(autoincrement())
   dob         DateTime
-  Composition Composition[]
+  composition Composition[]
 }
 
 model Composition {
