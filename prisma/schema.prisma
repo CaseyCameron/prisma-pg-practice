@@ -10,17 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Scale {
-  id      Int    @id @default(autoincrement())
-  name    String 
+  id     Int    @id @default(autoincrement())
+  name   String
   mode   Mode?  @relation(fields: [modeId], references: [id])
   modeId Int?
 }
 
 model Mode {
   id     Int     @id @default(autoincrement())
-  name   String  
+  name   String
   scales Scale[]
 }
 
@@ -32,6 +31,7 @@ model Genre {
 
 model Composer {
   id          Int           @id @default(autoincrement())
+  name        String
   dob         DateTime
   composition Composition[]
 }
