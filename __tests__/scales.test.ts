@@ -93,4 +93,25 @@ describe('Scale tests', () => {
       },
     });
   });
+  it('should delete a scale by id', async () => {
+    const mode = await request(app).post(MODE_ROUTE).send({ name: 'Lydian' });
+    const { body } = await request(app).post(SCALE_ROUTE).send({
+      name: 'Harmonic Minor',
+      modes: mode.body.mode,
+    });
+    const scale = body.scale;
+    const res = await request(app).delete(SCALE_ROUTE + `/${scale.id}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ message: 'Success' });
+  });
+  it('should delete all modes', async () => {
+    await request(app).post(SCALE_ROUTE).send({
+      name: 'Harmonic Minor',
+    });
+    const res = await request(app).delete(SCALE_ROUTE)
+
+    expect(res.status).toBe(200)
+    expect(res.body).toEqual({ message: 'Success' })
+  })
 });

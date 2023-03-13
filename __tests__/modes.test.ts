@@ -83,5 +83,6 @@ describe('Mode tests', () => {
     const res = await request(app).delete(MODE_ROUTE)
 
     expect(res.status).toBe(200)
+    expect(res.body).toEqual({ message: 'Success' })
   })
 });
