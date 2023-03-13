@@ -32,7 +32,6 @@ export const scalesController = {
           name,
         },
       });
-      console.log('scale', scale)
       res.status(201).json({ message: 'Success', scale });
     }
   },

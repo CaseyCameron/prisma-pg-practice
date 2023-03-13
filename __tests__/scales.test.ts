@@ -30,6 +30,25 @@ describe('Scale tests', () => {
       },
     });
   });
+  it('should get a scale by id', async () => {
+    const mode = await request(app).post(MODE_ROUTE).send({ name: 'Lydian' });
+    const scale = await request(app).post(SCALE_ROUTE).send({
+      name: 'Harmonic Minor',
+      modes: mode.body.mode,
+    });
+    const res = await request(app).get(SCALE_ROUTE + `/${scale.body.scale.id}`);
+    
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      message: 'Success',
+      scale:
+        {
+          id: expect.any(Number),
+          name: 'Harmonic Minor',
+          modeId: expect.any(Number),
+        },
+    });
+  });
   it('should get all scales', async () => {
     const mode = await request(app).post(MODE_ROUTE).send({ name: 'Lydian' });
     await request(app).post(SCALE_ROUTE).send({
