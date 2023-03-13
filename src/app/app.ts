@@ -3,7 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import heartbeat from './heartbeat'
-import { modesRouter, scalesRouter } from './routes/'
+import { genresRouter, modesRouter, scalesRouter } from './routes'
 import { handleErrors } from '../utils/handlers/catchErrors';
 
 const routePrefix = '/api/v1'
@@ -15,6 +15,7 @@ app.use(helmet())
 app.use(express.json())
 
 app.get(routePrefix, heartbeat)
+app.use(routePrefix + '/genres', genresRouter)
 app.use(routePrefix + '/modes', modesRouter)
 app.use(routePrefix + '/scales', scalesRouter)
 app.use(handleErrors)

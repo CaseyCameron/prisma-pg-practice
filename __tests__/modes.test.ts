@@ -13,6 +13,7 @@ describe('Mode tests', () => {
   })
   it('should post a mode', async () => {
     const res = await request(app).post(MODE_ROUTE).send({ name: 'Dorian' });
+    
     expect(res.status).toBe(201);
     expect(res.body).toMatchObject({
       message: 'Success',
