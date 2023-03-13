@@ -7,7 +7,6 @@ const Prisma = prisma.composer
 export const composersController = {
   addComposer: async (req: Request, res: Response, next: NextFunction) => {
     const { name, dob } = req.body;
-    console.log('name, dob', name, dob)
 
     const composer = await Prisma.create({
       data: {
@@ -23,7 +22,6 @@ export const composersController = {
   },
   getComposerById: async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
-    console.log('id', id)
     const composer = await Prisma.findUnique({
       where: {
         id: +id,
