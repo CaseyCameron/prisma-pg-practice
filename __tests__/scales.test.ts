@@ -69,4 +69,28 @@ describe('Scale tests', () => {
       ],
     });
   });
+  it('should update a scale', async () => {
+    const mode = await request(app).post(MODE_ROUTE).send({ name: 'Lydian' });
+    const { body } = await request(app).post(SCALE_ROUTE).send({
+      name: 'Harmonic Minor',
+      modes: mode.body.mode,
+    });
+    const scale = body.scale;
+    const res = await request(app)
+      .put(SCALE_ROUTE + `/${scale.id}`)
+      .send({
+        ...scale,
+        name: 'Harmonic Major',
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      message: 'Success',
+      scale: {
+        id: expect.any(Number),
+        name: 'Harmonic Major',
+        modeId: expect.any(Number),
+      },
+    });
+  });
 });

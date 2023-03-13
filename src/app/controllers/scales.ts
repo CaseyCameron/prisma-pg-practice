@@ -50,4 +50,18 @@ export const scalesController = {
     
     await handleTableResponse(scales, 'scales', res);
   },
+  editScale: async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id
+    const { name } = req.body
+    const scale = await Prisma.update({
+      where: {
+        id: +id
+      },
+      data: {
+        name
+      }
+    })
+
+    await handleRowResponse(scale, 'scale', res, next)
+  }
 };

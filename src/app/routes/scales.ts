@@ -9,5 +9,6 @@ const validationCriteria = [body('name').notEmpty()]
 router.post('/', validationCriteria, catchErrors(scalesController.addScale))
 router.get('/:id', validationCriteria, catchErrors(scalesController.getScaleById))
 router.get('/', validationCriteria, catchErrors(scalesController.getScales))
+router.put('/:id', validationCriteria, catchErrors(scalesController.editScale))
 
 export const scalesRouter = router
